@@ -1,11 +1,26 @@
 import { useState } from "react";
+import axios from 'axios';
 
 export default function SignUpForm(){
     const [formData, setFormData] = useState({name: "", email: "", password: "", confirm_password: ""});
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
         e.preventDefault();
         console.log(formData.name, formData.email, formData.password);
+        if(formData.password === formData.confirm_password){
+            await axios.post('http://localhost:3030/v1/user/sign-up', {
+               name : formData.name,
+               email: formData.email,
+               password: formData.password
+            }).then(function(res){
+               console.log(res.data);
+            }).catch(function (error){
+               console.log(error);
+            });
+        }
+        else{
+            alert("Passwords don't match!");
+        }
         setFormData({name: "", email: "", password: "", confirm_password: ""});
     }
 
