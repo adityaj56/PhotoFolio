@@ -1,5 +1,6 @@
 import './App.css';
-import { createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, useNavigate} from 'react-router-dom'
+import axios  from 'axios';
 import LoginForm from './components/login/login';
 import SignUpForm from './components/signup/signup';
 // import Layout from './components/layout/layout';
@@ -8,13 +9,18 @@ import Album from './components/album/album';
 
 function App() {
 
+
+
   const routes = createBrowserRouter([
     {path: '/', element: <LoginForm />},
     {path: '/sign-up', element: <SignUpForm />},
-    {path: '/home', element: <Navbar />, children: [
+    {path: '/home', element: <Navbar />,children: [
       {path: '', element: <Album />}
     ]}
   ])
+
+  
+
   return (
     <div className="App">
       <RouterProvider router={routes} />

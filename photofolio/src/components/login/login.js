@@ -1,14 +1,28 @@
 // import loginStyle from './login.module.css';
 import {useState} from 'react';
-// import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginForm(){
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({email: "", password: ""});
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
         e.preventDefault();
-        console.log(formData.email, formData.password);
+        // console.log(formData.email, formData.password);
+        await axios.post('http://localhost:3030/v1/user/create-session', {
+               email: formData.email,
+               password: formData.password
+            }).then(function(response){
+               console.log(response.data.token);
+               axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+               navigate('/home');
+            }).catch(function (error){
+               console.log(error);
+            });
     }
+
+    
 
     return(
         <form onSubmit={handleSubmit}>
